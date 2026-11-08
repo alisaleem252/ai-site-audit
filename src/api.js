@@ -40,6 +40,16 @@ export class RapidTextAI {
     if (!this.apiKey) throw new RapidTextAIError('Missing API key. Set RAPIDTEXTAI_API_KEY (see .env.example).');
   }
 
+  /**
+   * Build a request URL. The key is also sent as ?gigsixkey= because the production server currently
+   * ignores the Authorization header (verified live on 2026-11-08); the Bearer header is still sent too.
+   */
+  _url(path) {
+    const u = new URL(`${this.baseUrl}${path}`);
+    u.searchParams.set('gigsixkey', this.apiKey);
+    return u.toString();
+  }
+
   _headers(extra = {}) {
     return { Authorization: `Bearer ${this.apiKey}`, 'Content-Type': 'application/json', ...extra };
   }
@@ -53,14 +63,14 @@ export class RapidTextAI {
   }
 
   async get(path) {
-    const res = await fetch(`${this.baseUrl}${path}`, { headers: this._headers() });
+    const res = await fetch(this._url(`${path}`), { headers: this._headers() });
     if (!res.ok) await this._fail(res);
     return res.json();
   }
 
   /** POST with streaming; resolves with the `result` event's data. onEvent gets every other event. */
   async stream(path, body, { onEvent, signal } = {}) {
-    const res = await fetch(`${this.baseUrl}${path}`, {
+    const res = await fetch(this._url(`${path}`), {
       method: 'POST', headers: this._headers({ Accept: 'text/event-stream' }),
       body: JSON.stringify({ ...body, stream: true }), signal,
     });
