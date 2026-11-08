@@ -1,0 +1,15 @@
+{
+  "name": "ai-site-audit",
+  "version": "1.0.0",
+  "description": "Bulk content audit for any site: reads a sitemap or URL list, checks every page for outdated statements, copied text and wrong claims, and ranks what to fix first. Powered by the RapidTextAI API.",
+  "type": "module",
+  "bin": { "ai-site-audit": "bin/cli.js" },
+  "scripts": { "test": "node --test test/*.test.js", "demo": "node test/demo.js" },
+  "engines": { "node": ">=18" },
+  "keywords": ["seo", "content-audit", "site-audit", "sitemap", "content-refresh", "plagiarism-checker", "fact-checking", "content-decay", "seo-tools", "rapidtextai", "cli", "nodejs"],
+  "repository": { "type": "git", "url": "git+https://github.com/alisaleem252/ai-site-audit.git" },
+  "homepage": "https://github.com/alisaleem252/ai-site-audit#readme",
+  "bugs": { "url": "https://github.com/alisaleem252/ai-site-audit/issues" },
+  "files": ["bin", "src", ".env.example", "README.md"],
+  "dependencies": {}
+}
